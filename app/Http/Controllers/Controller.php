@@ -12,7 +12,8 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     public function getAlumins() {
-        $article= 'view this api';
+
+        $article= 'view this api aman name';
         return response()->json($article, 200);
     }
     
