@@ -7,14 +7,16 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 
+use App\Models\Scs_alumini;
+
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     public function getAlumins() {
-
+        $alumini = Scs_alumini::all();
         $article= 'view this api aman name';
-        return response()->json($article, 200);
+        return response()->json($alumini, 200);
     }
     
 }
