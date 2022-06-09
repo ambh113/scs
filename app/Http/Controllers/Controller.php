@@ -23,6 +23,14 @@ class Controller extends BaseController
     }
     public function registerAlumini(Request $request){
         $resp = $request->json()->all();
+        $user = Scs_alumini::where('email', $resp['email'])->first();
+        if($user != null) {
+            return response()->json('user already exist', 409);    
+        }
+        $saveObj = new Scs_alumini();
+        $saveObj->setValue($resp);
+        $saveObj->is_verified=false;
+        $saveObj->save();
         return response()->json($resp, 200);
     }
     public function getCourse(){
