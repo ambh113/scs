@@ -21,3 +21,5 @@ Route::get('/', function () {
 Route::get('/aluminis', [Controller::class, 'getAlumins']);
 Route::post('/aluminis',[Controller::class,'registerAlumini']);
 Route::get('/courses', [Controller::class, 'getCourse']);
+
+Route::post('/about/{id}',[Controller::class,'updateDetail']);

@@ -11,15 +11,24 @@ use Illuminate\Http\Request;
 
 use App\Models\Scs_alumini;
 use App\Models\Course;
+use App\Models\About;
 
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     public function getAlumins() {
-        $alumini = Scs_alumini::all();
-
-        return response()->json($alumini, 200);
+        $aluminis = Scs_alumini::all();
+        foreach($aluminis as $alumini) {
+            $about = About::where('scs_aluminis_id', $alumini->id)->first();
+            if ($about != null) {
+                $alumini->current_location = $about->current_location;
+                $alumini->company_name = $about->company_name;
+                $alumini->designtion = $about->designtion;
+                $alumini->experience = $about->experience;
+            }
+        }
+        return response()->json($aluminis, 200);
     }
     public function registerAlumini(Request $request){
         $resp = $request->json()->all();
@@ -36,6 +45,22 @@ class Controller extends BaseController
     public function getCourse(){
         $course = Course::all();
         return response()->json($course, 200);
+    }
+
+    public function updateDetail(Request $request, $id) {
+        $resp = $request->json()->all();
+        $user = Scs_alumini::where('id', $id)->first();
+        if($user == null) {
+            return response()->json('user not found', 409);
+        }
+        $about = About::where('scs_aluminis_id', $id)->first();
+        if($about == null) {
+            $about = new About();
+        }
+        $about->setValue($resp);
+        $about->scs_aluminis_id = $id;
+        $about->save();
+        return response()->json('About successfully updated', 200);
     }
     
 }
