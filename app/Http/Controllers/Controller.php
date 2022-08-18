@@ -17,6 +17,15 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+    public function getLogin(Request $request) {
+        $resp = $request->json()->all();
+        $user = Scs_alumini::where('email', $resp['email'])->where('password', $resp['password'])->first();
+        if (!isset($user)){
+            return response()->json('Invalid username or password', 404);
+        }
+        return response()->json($user, 200);
+    }
+
     public function getAlumins() {
         $aluminis = Scs_alumini::all();
         foreach($aluminis as $alumini) {
@@ -34,7 +43,7 @@ class Controller extends BaseController
         $resp = $request->json()->all();
         $user = Scs_alumini::where('email', $resp['email'])->first();
         if($user != null) {
-            return response()->json('user already exist', 409);    
+            return response()->json('user already exist', 409);
         }
         $saveObj = new Scs_alumini();
         $saveObj->setValue($resp);

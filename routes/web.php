@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,3 +24,7 @@ Route::post('/aluminis',[Controller::class,'registerAlumini']);
 Route::get('/courses', [Controller::class, 'getCourse']);
 
 Route::post('/about/{id}',[Controller::class,'updateDetail']);
+
+Route::get('/flashNews', [HomeController::class, 'getFlashNews']);
+
+Route::post('/auth/login',[Controller::class, 'getLogin']);
